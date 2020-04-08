@@ -232,18 +232,22 @@ fail_work_cv:
  * Run a request, usually by queueing it.
  */
 void
-l9p_threadpool_run(struct l9p_threadpool *tp, struct l9p_request *req)
+l9p_threadpool_run(struct l9p_threadpool *tp, struct l9p_request *req,
+    int force_immediate)
 {
-
 	/*
 	 * Flush requests must be handled specially, since they
 	 * can cancel / kill off regular requests.  (But we can
 	 * run them through the regular dispatch mechanism.)
 	 */
 	if (req->lr_req.hdr.type == L9P_TFLUSH) {
+        printf("tflush\n");
 		/* not on a work queue yet so we can touch state */
 		req->lr_workstate = L9P_WS_IMMEDIATE;
 		(void) l9p_dispatch_request(req);
+    } else if (force_immediate) {
+        (void) l9p_dispatch_request(req);
+        l9p_respond(req, false, true);
 	} else {
 		pthread_mutex_lock(&tp->ltp_mtx);
 		req->lr_workstate = L9P_WS_NOTSTARTED;

@@ -111,7 +111,7 @@ enum l9p_flushstate {
 
 void	l9p_threadpool_flushee_done(struct l9p_request *);
 int	l9p_threadpool_init(struct l9p_threadpool *, int);
-void	l9p_threadpool_run(struct l9p_threadpool *, struct l9p_request *);
+void	l9p_threadpool_run(struct l9p_threadpool *, struct l9p_request *, int);
 int	l9p_threadpool_shutdown(struct l9p_threadpool *);
 int	l9p_threadpool_tflush(struct l9p_request *);
 

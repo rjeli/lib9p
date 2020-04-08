@@ -87,7 +87,7 @@ l9p_connection_free(struct l9p_connection *conn)
 
 void
 l9p_connection_recv(struct l9p_connection *conn, const struct iovec *iov,
-    const size_t niov, void *aux)
+    const size_t niov, void *aux, int force_immediate)
 {
 	struct l9p_request *req;
 	int error;
@@ -134,7 +134,7 @@ l9p_connection_recv(struct l9p_connection *conn, const struct iovec *iov,
 	 * to queue the work or to run it immediately and wait
 	 * (it must do the latter for Tflush requests).
 	 */
-	l9p_threadpool_run(&conn->lc_tp, req);
+	l9p_threadpool_run(&conn->lc_tp, req, force_immediate);
 }
 
 void

@@ -224,7 +224,7 @@ int l9p_connection_init(struct l9p_server *server,
     struct l9p_connection **connp);
 void l9p_connection_free(struct l9p_connection *conn);
 void l9p_connection_recv(struct l9p_connection *conn, const struct iovec *iov,
-    size_t niov, void *aux);
+    size_t niov, void *aux, int force_immediate);
 void l9p_connection_close(struct l9p_connection *conn);
 struct l9p_fid *l9p_connection_alloc_fid(struct l9p_connection *conn,
     uint32_t fid);
